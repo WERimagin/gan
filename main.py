@@ -28,12 +28,14 @@ parser.add_argument("--latent_dim", type=int, default=100, help="dimensionality 
 parser.add_argument("--img_size", type=int, default=28, help="size of each image dimension")
 parser.add_argument("--channels", type=int, default=1, help="number of image channels")
 parser.add_argument("--sample_interval", type=int, default=400, help="interval betwen image samples")
+parser.add_argument('--device', default='cpu')
 opt = parser.parse_args()
 print(opt)
 
 img_shape = (opt.channels, opt.img_size, opt.img_size)
 
 cuda = True if torch.cuda.is_available() else False
+device = torch.device(args.device)
 
 
 #ランダムなinputから画像を生成
@@ -117,7 +119,7 @@ print("len dataset: ", len(dataloader))
 optimizer_G = torch.optim.Adam(generator.parameters(), lr=opt.lr, betas=(opt.b1, opt.b2))
 optimizer_D = torch.optim.Adam(discriminator.parameters(), lr=opt.lr, betas=(opt.b1, opt.b2))
 
-Tensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
+#Tensor = torch.cuda.FloatTensor if cuda else torch.FloatTensor
 
 # ----------
 #  Training
@@ -130,12 +132,16 @@ for epoch in range(opt.n_epochs):
     for i, (imgs, _) in enumerate(dataloader):
 
         # Adversarial ground truths
-        valid = Variable(Tensor(imgs.size(0), 1).fill_(1.0), requires_grad=False) #(batch,1)
-        fake = Variable(Tensor(imgs.size(0), 1).fill_(0.0), requires_grad=False)
+        #valid = Variable(Tensor(imgs.size(0), 1).fill_(1.0), requires_grad=False) #(batch,1)
+        #fake = Variable(Tensor(imgs.size(0), 1).fill_(0.0), requires_grad=False)
+
+        valid=torch.Tensor(imgs.size(0), 1).fill_(1.0).to(device)
+        fake=torch.Tensor(imgs.size(0), 1).fill_(1.0).to(device)
 
 
         # Configure input
-        real_imgs = Variable(imgs.type(Tensor)) #(batch,1,h,w)
+        #real_imgs = Variable(imgs.type(Tensor)) #(batch,1,h,w)
+        real_imgs=imgs.to(deivce)
 
         # -----------------
         #  Train Generator
@@ -144,7 +150,8 @@ for epoch in range(opt.n_epochs):
         optimizer_G.zero_grad()
 
         # Sample noise as generator input
-        z = Variable(Tensor(np.random.normal(0, 1, (imgs.shape[0], opt.latent_dim)))) #(batch,latent_dim)
+        #z = Variable(Tensor(np.random.normal(0, 1, (imgs.shape[0], opt.latent_dim)))) #(batch,latent_dim)
+        z=torch.tensor(np.random.normal(0, 1, (imgs.shape[0], opt.latent_dim))).to(device)
 
         # Generate a batch of images
         gen_imgs = generator(z) #(batch,1,h,w)
