@@ -42,7 +42,8 @@ device = torch.device(opt.device)
 #(batch,latent_dim)->(batch,channel=1,h,w)
 class Generator(nn.Module):
     def __init__(self):
-        super(Generator, self).__init__()
+        #super(Generator, self).__init__()
+        super().__init__()
 
         def block(in_feat, out_feat, normalize=True):
             layers = [nn.Linear(in_feat, out_feat)]
@@ -68,7 +69,8 @@ class Generator(nn.Module):
 #(batch,channel,h,w)->(batch,1)
 class Discriminator(nn.Module):
     def __init__(self):
-        super(Discriminator, self).__init__()
+        #super(Discriminator, self).__init__()
+        super().__init__()
 
         self.model = nn.Sequential(
             nn.Linear(int(np.prod(img_shape)), 512),
