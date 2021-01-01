@@ -135,8 +135,10 @@ for epoch in range(opt.n_epochs):
         #valid = Variable(Tensor(imgs.size(0), 1).fill_(1.0), requires_grad=False) #(batch,1)
         #fake = Variable(Tensor(imgs.size(0), 1).fill_(0.0), requires_grad=False)
 
-        valid=torch.Tensor(imgs.size(0), 1).fill_(1.0).to(device)
-        fake=torch.Tensor(imgs.size(0), 1).fill_(1.0).to(device)
+        #valid=torch.Tensor(imgs.size(0), 1).fill_(1.0).to(device)
+        #fake=torch.Tensor(imgs.size(0), 1).fill_(1.0).to(device)
+        valid=torch.ones(imgs.size(0), 1).to(device)
+        fake=torch.zeros(imgs.size(0), 1).to(device)
 
 
         # Configure input
@@ -151,7 +153,7 @@ for epoch in range(opt.n_epochs):
 
         # Sample noise as generator input
         #z = Variable(Tensor(np.random.normal(0, 1, (imgs.shape[0], opt.latent_dim)))) #(batch,latent_dim)
-        z=torch.tensor(np.random.normal(0, 1, (imgs.shape[0], opt.latent_dim))).to(device)
+        z=torch.tensor(np.random.normal(0, 1, (imgs.shape[0], opt.latent_dim)), dtype=torch.float32).to(device)
 
         # Generate a batch of images
         gen_imgs = generator(z) #(batch,1,h,w)
