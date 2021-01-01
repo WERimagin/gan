@@ -1,0 +1,6 @@
+概要
+  様々なgan
+
+gan
+
+python -u implemetations/gan/gan.py \
