@@ -90,8 +90,11 @@ class Discriminator(nn.Module):
 adversarial_loss = torch.nn.BCELoss()
 
 # Initialize generator and discriminator
-generator = Generator().to(device)
-discriminator = Discriminator().to(device)
+generator = Generator()
+discriminator = Discriminator()
+
+generator=generator.to(device)
+discrminator=discriminator.to(device)
 
 """
 if cuda:
