@@ -141,7 +141,7 @@ for epoch in range(opt.n_epochs):
 
         # Configure input
         #real_imgs = Variable(imgs.type(Tensor)) #(batch,1,h,w)
-        real_imgs=imgs.to(deivce)
+        real_imgs=imgs.to(device)
 
         # -----------------
         #  Train Generator
