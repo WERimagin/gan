@@ -90,13 +90,15 @@ class Discriminator(nn.Module):
 adversarial_loss = torch.nn.BCELoss()
 
 # Initialize generator and discriminator
-generator = Generator()
-discriminator = Discriminator()
+generator = Generator().to(device)
+discriminator = Discriminator().to(device)
 
+"""
 if cuda:
     generator.cuda()
     discriminator.cuda()
     adversarial_loss.cuda()
+"""
 
 # Configure data loader
 os.makedirs("../../data/mnist", exist_ok=True)
