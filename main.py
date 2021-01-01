@@ -40,7 +40,7 @@ device = torch.device(opt.device)
 
 #ランダムなinputから画像を生成
 #(batch,latent_dim)->(batch,channel=1,h,w)
-class Generator(nn.Module):
+class Generator(torch.nn.Module):
     def __init__(self):
         #super(Generator, self).__init__()
         super().__init__()
@@ -67,7 +67,7 @@ class Generator(nn.Module):
         return img
 
 #(batch,channel,h,w)->(batch,1)
-class Discriminator(nn.Module):
+class Discriminator(torch.nn.Module):
     def __init__(self):
         #super(Discriminator, self).__init__()
         super().__init__()
@@ -106,16 +106,17 @@ if cuda:
 """
 
 # Configure data loader
-os.makedirs("../../data/mnist", exist_ok=True)
-dataloader = torch.utils.data.DataLoader(
-    datasets.MNIST(
-        "../../data/mnist",
-        train=True,
-        download=True,
-        transform=transforms.Compose(
-            [transforms.Resize(opt.img_size), transforms.ToTensor(), transforms.Normalize([0.5], [0.5])]
-        ),
+os.makedirs("data/", exist_ok=True)
+dataset=datasets.MNIST(
+    "data/",
+    train=True,
+    download=True,
+    transform=transforms.Compose(
+        [transforms.Resize(opt.img_size), transforms.ToTensor(), transforms.Normalize([0.5], [0.5])]
     ),
+)
+dataloader = torch.utils.data.DataLoader(
+    dataset,
     batch_size=opt.batch_size,
     shuffle=True,
 )
