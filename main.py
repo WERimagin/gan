@@ -35,7 +35,7 @@ print(opt)
 img_shape = (opt.channels, opt.img_size, opt.img_size)
 
 cuda = True if torch.cuda.is_available() else False
-device = torch.device(args.device)
+device = torch.device(opt.device)
 
 
 #ランダムなinputから画像を生成
