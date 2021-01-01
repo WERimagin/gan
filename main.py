@@ -28,6 +28,7 @@ parser.add_argument("--latent_dim", type=int, default=100, help="dimensionality 
 parser.add_argument("--img_size", type=int, default=28, help="size of each image dimension")
 parser.add_argument("--channels", type=int, default=1, help="number of image channels")
 parser.add_argument("--sample_interval", type=int, default=400, help="interval betwen image samples")
+parser.add_argument("--loss_interval", type=int, default=400, help="interval betwen image samples")
 parser.add_argument('--device', default='cpu')
 opt = parser.parse_args()
 print(opt)
@@ -188,7 +189,7 @@ for epoch in range(opt.n_epochs):
 
         g_loss_list.append(g_loss.item())
         d_loss_list.append(d_loss.item())
-        if (i+1)%50==0:
+        if (i+1)%opt.loss_interval==0:
             print(
                 "[Epoch %d/%d] [Batch %d/%d] [G loss: %f] [D loss: %f] "
                 % (epoch, opt.n_epochs, i, len(dataloader), np.average(g_loss_list),np.average(d_loss_list))
